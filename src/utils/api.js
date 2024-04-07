@@ -1,14 +1,12 @@
 import axios from 'axios';
 
-export const getLeaderboardData = async () => {
-    try {
-        const response = await axios.get(
-            'https://nodejs-homework-rest-api-7or0.onrender.com/score'
-        );
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching scores', error);
-    }
+export const getLeaderboardData = () => {
+    axios
+        .get('https://nodejs-homework-rest-api-7or0.onrender.com/score')
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => console.error('Error fetching scores', error));
 };
 
 export const sendLeaderboardData = async (playerName, score) => {
@@ -20,6 +18,7 @@ export const sendLeaderboardData = async (playerName, score) => {
                 score: score,
             }
         );
+        console.log('Score added successfully');
         return response.data;
     } catch (error) {
         console.error('Error adding score', error);
