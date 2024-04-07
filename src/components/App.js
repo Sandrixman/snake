@@ -82,7 +82,9 @@ const App = () => {
                     />
                 </>
             )}
-            {gameOver && <GameOver score={score} gameOver={gameOver} startNewGame={startNewGame} />}
+            {gameOver && (
+                <GameOver score={score} playerName={playerName} startNewGame={startNewGame} />
+            )}
         </>
     );
 };
