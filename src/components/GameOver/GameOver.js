@@ -1,9 +1,13 @@
+import { useEffect } from 'react';
 import { Button } from '../../GlobalStyle';
 import { sendLeaderboardData } from '../../utils/api';
 import * as SC from './GameOver.styled';
 
 const GameOver = ({ score, startNewGame, playerName }) => {
-    sendLeaderboardData(playerName, score);
+    useEffect(() => {
+        console.log('Game Over');
+        sendLeaderboardData(playerName, score);
+    }, [playerName, score]);
 
     return (
         <SC.GameOver>

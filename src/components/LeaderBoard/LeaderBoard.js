@@ -3,26 +3,45 @@ import { getLeaderboardData } from '../../utils/api';
 import * as SC from './LeaderBoard.styled';
 
 const LeaderBoard = () => {
-    const [leaderList, setLeaderList] = useState([{ playerName: 'test', score: 0 }]);
+    const [leaderList, setLeaderList] = useState(null);
 
     useEffect(() => {
-        const leaderList = getLeaderboardData();
-        if (leaderList) {
-            setLeaderList(leaderList);
-        }
+        const fetchData = async () => {
+            try {
+                const data = await getLeaderboardData();
+                setLeaderList(data);
+            } catch (error) {
+                console.error('Error fetching leaderboard data', error);
+            }
+        };
+
+        fetchData();
     }, []);
 
     return (
-        <SC.LeaderBoard>
-            <h3>Leaderboard:</h3>
-            <ul>
-                {leaderList.map((record, index) => (
-                    <li key={index}>
-                        {record.playerName}: {record.score}
-                    </li>
-                ))}
-            </ul>
-        </SC.LeaderBoard>
+        <>
+            {leaderList && (
+                <SC.LeaderBoard>
+                    <h3>Leaderboard:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {leaderList.map((record, index) => (
+                                <tr key={index}>
+                                    <td>{record.name}</td>
+                                    <td>{record.score}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </SC.LeaderBoard>
+            )}
+        </>
     );
 };
 
